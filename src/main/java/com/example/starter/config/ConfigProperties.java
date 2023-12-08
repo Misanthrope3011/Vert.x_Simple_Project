@@ -1,0 +1,35 @@
+package com.example.starter.config;
+
+import io.vertx.config.ConfigRetriever;
+import io.vertx.config.ConfigRetrieverOptions;
+import io.vertx.config.ConfigStoreOptions;
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
+import lombok.Getter;
+
+public class ConfigProperties {
+
+  private ConfigRetriever configRetriever;
+
+  @Getter
+  private JsonObject properties;
+
+  public ConfigProperties() {
+    ConfigStoreOptions configStoreOptions = new ConfigStoreOptions()
+      .setType("file")
+      .setFormat("json")
+      .setConfig(new JsonObject().put("path", "config.json"));
+
+    ConfigRetrieverOptions configRetrieverOptions = new ConfigRetrieverOptions()
+      .addStore(configStoreOptions);
+    configRetriever = ConfigRetriever.create(Vertx.vertx(), configRetrieverOptions);
+  }
+
+  public Future<JsonObject> getProperties() {
+    return configRetriever.getConfig().onComplete(handler -> {
+      this.properties = handler.result();
+    });
+  }
+
+}

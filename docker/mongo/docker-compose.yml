@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7.0.4
+    container_name: mongodb_container
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - vertex-network
+
+networks:
+  vertex-network:
+    external: true

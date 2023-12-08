@@ -18,4 +18,9 @@ public class ExecutorServiceImpl implements Executor<List<JsonObject>> {
     return executorService.submit(method).get();
   }
 
+  @Override
+  public void execute(Runnable method) {
+    executorService.execute(method);
+  }
+
 }

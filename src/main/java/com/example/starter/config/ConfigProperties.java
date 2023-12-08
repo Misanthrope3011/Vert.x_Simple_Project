@@ -6,13 +6,10 @@ import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import lombok.Getter;
 
 public class ConfigProperties {
 
-  private ConfigRetriever configRetriever;
-
-  @Getter
+  private final ConfigRetriever configRetriever;
   private JsonObject properties;
 
   public ConfigProperties() {

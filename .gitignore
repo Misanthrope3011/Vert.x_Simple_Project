@@ -183,3 +183,9 @@ nbdist/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Project exclude paths
+/build/
+/build/classes/java/main/
+/build/classes/java/test/
+/.idea/

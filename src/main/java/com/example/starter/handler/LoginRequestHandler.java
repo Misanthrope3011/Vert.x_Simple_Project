@@ -1,7 +1,7 @@
 package com.example.starter.handler;
 
 import com.example.starter.dto.SystemUser;
-import com.example.starter.service.RegistrationService;
+import com.example.starter.service.AuthenticationService;
 import com.example.starter.service.auth.JWTAuthService;
 import com.example.starter.utils.StatusCode;
 import io.vertx.core.Handler;
@@ -13,12 +13,12 @@ import static com.example.starter.utils.CommonUtils.*;
 
 public class LoginRequestHandler implements Handler<RoutingContext> {
 
-  private RegistrationService registrationService;
+  private AuthenticationService registrationService;
   private JWTAuthService jwtAuthService;
 
   public LoginRequestHandler(Vertx vertx) {
     jwtAuthService = new JWTAuthService(vertx);
-    registrationService = new RegistrationService(vertx);
+    registrationService = new AuthenticationService(vertx);
   }
 
   @Override

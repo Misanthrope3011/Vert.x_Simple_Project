@@ -37,7 +37,7 @@ public class JWTAuthService {
     Map<String, Object> claims = new HashMap<>();
     claims.put(ISSUER, "Sebastian");
     claims.put(SUBJECT, user.login());
-    claims.put(EXPIRATION, System.currentTimeMillis() + 360000);
+    claims.put(EXPIRATION, System.currentTimeMillis() + 3600000);
 
     return provider.generateToken(new JsonObject(claims), new JWTOptions());
   }

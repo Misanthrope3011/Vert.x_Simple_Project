@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import static com.example.starter.utils.CommonUtils.getBodyFromRequest;
+import static com.example.starter.utils.CommonUtils.*;
 
 @Slf4j
 public class VerticleInitializer extends AbstractVerticle {

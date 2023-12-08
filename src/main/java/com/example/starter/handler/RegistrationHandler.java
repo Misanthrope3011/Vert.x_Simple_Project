@@ -8,7 +8,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
-import static com.example.starter.utils.CommonUtils.getBodyFromRequest;
+import static com.example.starter.utils.CommonUtils.*;
 
 public class RegistrationHandler implements Handler<RoutingContext> {
 

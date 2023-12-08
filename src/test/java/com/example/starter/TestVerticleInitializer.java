@@ -43,20 +43,15 @@ public class TestVerticleInitializer {
 
   @Test
   void shouldSaveRequestInDB(Vertx vertx, VertxTestContext testContext) throws IOException {
-    var objectMapper = new ObjectMapper();
     JsonObject loadContent = new JsonObject(new String(new FileInputStream("src/test/resources/request.json").readAllBytes()));
-    Future<Buffer> compose = vertx.createHttpClient()
+    vertx.createHttpClient()
       .request(HttpMethod.POST, 3000, "127.0.0.1", "/register")
-      .andThen(request -> {
-        request.result().send(loadContent.toBuffer());
-      })
-      .compose(HttpClientRequest::send)
-      .compose(httpClientResponse -> {
+      .compose(request -> request.send(loadContent.toBuffer()))
+      .andThen(httpClientResponse -> {
         testContext.verify(() -> {
-          Assertions.assertEquals(httpClientResponse.statusCode(), StatusCode.UNAUTHORIZED);
+          Assertions.assertEquals(httpClientResponse.result().statusCode(), StatusCode.UNAUTHORIZED);
           testContext.completeNow();
         });
-        return null;
       });
   }
 

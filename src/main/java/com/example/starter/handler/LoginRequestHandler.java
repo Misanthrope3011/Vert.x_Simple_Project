@@ -27,7 +27,7 @@ public class LoginRequestHandler implements Handler<RoutingContext> {
       .onComplete(result -> {
         if (result.result()) {
           SystemUser user = event.body().asJsonObject().mapTo(SystemUser.class);
-          event.put("uuid", user.uuid());
+          event.put("userUUID", user.uuid());
           event.response().setStatusCode(StatusCode.OK).end(new JsonObject().put("token", jwtAuthService.generateToken(user)).toBuffer());
         } else {
           event.response().setStatusCode(StatusCode.UNAUTHORIZED).end();

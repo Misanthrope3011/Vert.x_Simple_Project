@@ -1,6 +1,8 @@
 package com.example.starter.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
-public record SystemUser(String login, String password, String salt, String token, @JsonProperty("_id") String uuid) {
+@Builder
+public record SystemUser(String login, String password, String salt, @JsonProperty("_id") String uuid) {
 }

@@ -3,6 +3,7 @@ package com.example.starter;
 import com.example.starter.config.ConfigProperties;
 import com.example.starter.dto.Item;
 import com.example.starter.handler.BadRequestErrorHandler;
+import com.example.starter.handler.JwtClaimsValidatorHandler;
 import com.example.starter.handler.LoginRequestHandler;
 import com.example.starter.handler.RegistrationHandler;
 import com.example.starter.response.SimpleResponse;
@@ -50,12 +51,14 @@ public class VerticleInitializer extends AbstractVerticle {
 
     router.get("/items")
       .handler(jwtAuthHandler.getJwtAuthHandler())
+      .handler(new JwtClaimsValidatorHandler())
       .handler(this::getUserItem);
 
     router.post("/items")
       .consumes("application/json")
       .handler(BodyHandler.create())
       .handler(jwtAuthHandler.getJwtAuthHandler())
+      .handler(new JwtClaimsValidatorHandler())
       .handler(this::saveItem);
 
     router.post("/login")
@@ -103,7 +106,7 @@ public class VerticleInitializer extends AbstractVerticle {
   private void saveItem(RoutingContext routingCtx) {
     JsonObject requestItem = getBodyFromRequest(routingCtx);
     itemsService.validate(requestItem);
-    requestItem.put("uuid", routingCtx.get("uuid"));
+    requestItem.put("userUUID", routingCtx.get("userUUID"));
     itemsService.saveItem(requestItem).onSuccess(handler -> {
       routingCtx.response().setStatusCode(StatusCode.CREATED).end();
     });

@@ -23,9 +23,10 @@ public class JWTAuthService {
 
   private final JWTAuth provider;
   private final JWTAuthHandler jwtAuthHandler;
+  private final JWTAuthOptions config;
 
   public JWTAuthService(Vertx vertx) {
-    JWTAuthOptions config = new JWTAuthOptions()
+    config = new JWTAuthOptions()
       .setKeyStore(new KeyStoreOptions()
         .setPassword("secret"));
 

@@ -1,10 +1,7 @@
 package com.example.starter;
 
 import com.example.starter.utils.StatusCode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -29,7 +26,7 @@ public class TestVerticleInitializer {
 
   @Test
   void shouldReturnHttpStatus401_whenUnauthorized(Vertx vertx, VertxTestContext testContext) {
-    Future<Buffer> compose = vertx.createHttpClient()
+    vertx.createHttpClient()
       .request(HttpMethod.GET, 3000, "127.0.0.1", "/items")
       .compose(HttpClientRequest::send)
       .compose(httpClientResponse -> {
@@ -37,22 +34,27 @@ public class TestVerticleInitializer {
           Assertions.assertEquals(httpClientResponse.statusCode(), StatusCode.UNAUTHORIZED);
           testContext.completeNow();
         });
-          return null;
+        return null;
       });
   }
 
   @Test
-  void shouldSaveRequestInDB(Vertx vertx, VertxTestContext testContext) throws IOException {
-    JsonObject loadContent = new JsonObject(new String(new FileInputStream("src/test/resources/request.json").readAllBytes()));
-    vertx.createHttpClient()
-      .request(HttpMethod.POST, 3000, "127.0.0.1", "/register")
-      .compose(request -> request.send(loadContent.toBuffer()))
-      .andThen(httpClientResponse -> {
-        testContext.verify(() -> {
-          Assertions.assertEquals(httpClientResponse.result().statusCode(), StatusCode.UNAUTHORIZED);
-          testContext.completeNow();
+  void shouldSaveRequestInDB_whenValidRequestProvided(Vertx vertx, VertxTestContext testContext) throws IOException {
+    try(FileInputStream requestBodyStream = new FileInputStream("src/test/resources/request.json")) {
+      JsonObject loadContent = new JsonObject(new String(requestBodyStream.readAllBytes()));
+      vertx.createHttpClient()
+        .request(HttpMethod.POST, 3000, "127.0.0.1", "/register")
+        .compose(request -> {
+          request.putHeader("Content-Type", "application/json");
+          return request.send(loadContent.toBuffer());
+        })
+        .onComplete(httpClientResponse -> {
+          testContext.verify(() -> {
+            Assertions.assertEquals( StatusCode.CREATED, httpClientResponse.result().statusCode());
+            testContext.completeNow();
+          });
         });
-      });
+    }
   }
 
   @AfterEach

@@ -8,6 +8,7 @@ public enum ErrorMessages {
   CONFLICT("Resource with id already exists"),
   SERVER_ERROR("Unexpected error occured"),
   UNKNOWN_FIELD("Unknown field passed to the request"),
+  ACCES_TOKEN_EXPIRED("Access token expired, please log in again"),
   REQUIRED("Field is required");
   private String message;
 

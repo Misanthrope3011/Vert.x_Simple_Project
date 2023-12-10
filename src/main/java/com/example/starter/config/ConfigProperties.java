@@ -12,7 +12,7 @@ public class ConfigProperties {
   private final ConfigRetriever configRetriever;
   private JsonObject properties;
 
-  public ConfigProperties() {
+  public ConfigProperties(Vertx vertx) {
     ConfigStoreOptions configStoreOptions = new ConfigStoreOptions()
       .setType("file")
       .setFormat("json")
@@ -20,7 +20,7 @@ public class ConfigProperties {
 
     ConfigRetrieverOptions configRetrieverOptions = new ConfigRetrieverOptions()
       .addStore(configStoreOptions);
-    configRetriever = ConfigRetriever.create(Vertx.vertx(), configRetrieverOptions);
+    configRetriever = ConfigRetriever.create(vertx, configRetrieverOptions);
   }
 
   public Future<JsonObject> getProperties() {

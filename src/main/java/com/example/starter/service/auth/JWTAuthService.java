@@ -1,5 +1,6 @@
 package com.example.starter.service.auth;
 
+import com.example.starter.config.ConfigProperties;
 import com.example.starter.dto.SystemUser;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -24,12 +25,14 @@ public class JWTAuthService {
   private final JWTAuth provider;
   private final JWTAuthHandler jwtAuthHandler;
   private final JWTAuthOptions config;
+  private ConfigProperties configProperties;
 
   public JWTAuthService(Vertx vertx) {
+    configProperties = new ConfigProperties(vertx);
+    configProperties.getProperties().result();
     config = new JWTAuthOptions()
       .setKeyStore(new KeyStoreOptions()
-        .setPassword("secret"));
-
+        .setPassword(System.getenv("STORE_SECRET")));
     provider = JWTAuth.create(vertx, config);
     jwtAuthHandler = JWTAuthHandler.create(provider);
   }

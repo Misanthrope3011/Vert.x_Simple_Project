@@ -16,6 +16,12 @@ public class LoginRequestHandler implements Handler<RoutingContext> {
   private AuthenticationService registrationService;
   private JWTAuthService jwtAuthService;
 
+
+  public LoginRequestHandler(AuthenticationService registrationService, JWTAuthService jwtAuthService) {
+    this.registrationService = registrationService;
+    this.jwtAuthService = jwtAuthService;
+  }
+
   public LoginRequestHandler(Vertx vertx) {
     jwtAuthService = new JWTAuthService(vertx);
     registrationService = new AuthenticationService(vertx);
@@ -27,7 +33,7 @@ public class LoginRequestHandler implements Handler<RoutingContext> {
       .onComplete(result -> {
         if (result.result()) {
           SystemUser user = event.body().asJsonObject().mapTo(SystemUser.class);
-          event.put("userUUID", user.uuid());
+          event.put("owner", user.login());
           event.response().setStatusCode(StatusCode.OK).end(new JsonObject().put("token", jwtAuthService.generateToken(user)).toBuffer());
         } else {
           event.response().setStatusCode(StatusCode.UNAUTHORIZED).end();

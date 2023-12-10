@@ -5,6 +5,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -14,6 +15,7 @@ import java.util.List;
 import static com.example.starter.service.MongoDBClient.ConnectionProperties.CONNECTION_URL;
 import static com.example.starter.service.MongoDBClient.ConnectionProperties.DATABASE_NAME;
 
+@Setter
 @Getter
 @Slf4j
 public class MongoDBClient {
@@ -26,10 +28,6 @@ public class MongoDBClient {
 
   public MongoDBClient(Vertx vertx) {
     client = MongoClient.createShared(vertx, initMongoClientProperties(new ConnectionInitializer()));
-  }
-
-  public Future<String> insert(String collection, JsonObject data) {
-    return client.insert(collection, data);
   }
 
   private JsonObject initMongoClientProperties(ConnectionInitializer initializerData) {

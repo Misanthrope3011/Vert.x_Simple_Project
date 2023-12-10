@@ -44,10 +44,13 @@ dependencies {
   implementation("io.vertx:vertx-auth-common:${vertxVersion}")
   implementation("org.apache.commons:commons-lang3:3.14.0")
   implementation("io.vertx:vertx-config:${vertxVersion}")
+  implementation("org.mockito:mockito-core:3.12.4")
 
 
   testImplementation("io.vertx:vertx-junit5")
+  testImplementation("io.vertx:vertx-unit:${vertxVersion}")
   testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
+  testImplementation ("org.mockito:mockito-junit-jupiter:3.12.4")
 }
 
 java {

@@ -13,6 +13,7 @@ public class JwtClaimsValidatorHandler implements Handler<RoutingContext> {
     if(isTokenExpired(context)) {
       context.response().setStatusCode(StatusCode.UNAUTHORIZED).end(ErrorMessages.ACCES_TOKEN_EXPIRED.getMessage());
     }
+    context.next();
   }
 
   private boolean isTokenExpired(RoutingContext context) {

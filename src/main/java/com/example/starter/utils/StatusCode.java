@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
 public class StatusCode {
 
   public final int OK = 200;
-  public final int CREATED = 204;
+  public final int CREATED = 201;
   public final int BAD_REQUEST = 400;
   public final int UNAUTHORIZED = 401;
   public final int NOT_FOUND = 404;
